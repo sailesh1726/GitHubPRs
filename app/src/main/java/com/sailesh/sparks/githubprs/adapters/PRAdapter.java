@@ -1,6 +1,7 @@
-package com.sailesh.sparks.githubprs.view;
+package com.sailesh.sparks.githubprs.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sailesh.sparks.githubprs.R;
+import com.sailesh.sparks.githubprs.util.Constants;
 import com.sailesh.sparks.githubprs.util.Util;
+import com.sailesh.sparks.githubprs.view.DiffActivity;
 import com.sailesh.sparks.networkmodule.model.PullRequest;
 
 import java.util.Date;
@@ -34,19 +37,22 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.PRViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PRViewHolder holder, int position) {
-        PullRequest pullRequest = pullRequests.get(position);
+        final PullRequest pullRequest = pullRequests.get(position);
         holder.setItem(pullRequest);
 
         if (pullRequest != null) {
             holder.setTitle(pullRequest.getTitle());
-            holder.setCreatedDateTextView(pullRequest.getId(),pullRequest.getCreatedDate(),pullRequest.getUser().getLogin());
+            holder.setCreatedDateTextView(pullRequest.getId(), pullRequest.getCreatedDate(), pullRequest.getUser().getLogin());
 
         }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, DiffActivity.class);
+                intent.putExtra(Constants.TITLE, pullRequest.getTitle());
+                intent.putExtra(Constants.DIFF_URL, pullRequest.getDiffUrl());
+                context.startActivity(intent);
             }
         });
     }
@@ -78,7 +84,7 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.PRViewHolder> {
         }
 
         public void setCreatedDateTextView(long id, Date date, String dev) {
-            cdTextView.setText("#"+id +" opened on "+Util.dateFormat.format(date)+" by "+dev);
+            cdTextView.setText("#" + id + " opened on " + Util.dateFormat.format(date) + " by " + dev);
         }
 
         public void setItem(PullRequest item) {

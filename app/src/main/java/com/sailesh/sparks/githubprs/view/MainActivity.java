@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
 
 import com.sailesh.sparks.githubprs.R;
+import com.sailesh.sparks.githubprs.adapters.PRAdapter;
 import com.sailesh.sparks.githubprs.databinding.PRBinding;
 import com.sailesh.sparks.githubprs.viewmodel.PullRequestViewModel;
 import com.sailesh.sparks.networkmodule.RetrofitClient;
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity implements PullRequestViewModel.P
 
         mPullRequests = new ArrayList<>();
 
-        mPRAdapter = new PRAdapter(this,mPullRequests);
+        mPRAdapter = new PRAdapter(this, mPullRequests);
         mPrBinding.pullRequestRecycleView.setAdapter(mPRAdapter);
         pullRequestViewModel.getPRRequests();
 
@@ -59,6 +60,6 @@ public class MainActivity extends BaseActivity implements PullRequestViewModel.P
 
     @Override
     public void error(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
